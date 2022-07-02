@@ -1,12 +1,16 @@
 import Card from "./components/Card";
 import Button from "./components/Button";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const App = () => {
-  const [info, setInfo] = useState();
+  const [info, setInfo] = useState({});
 
   const url = "https://randomuser.me/api/";
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const getUserInfo = async () => {
     const { data } = await axios.get(url);
@@ -14,7 +18,10 @@ const App = () => {
   };
   console.log(info);
 
-  getUserInfo();
+  if (!info) {
+    return <div>LOADING</div>;
+  }
+
   return (
     <div>
       <Card
