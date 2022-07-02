@@ -4,22 +4,35 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const App = () => {
-  const [info, setInfo] = useState({});
-
-  const url = "https://randomuser.me/api/";
+  const [info, setInfo] = useState();
 
   useEffect(() => {
     getUserInfo();
   }, []);
 
-  const getUserInfo = async () => {
-    const { data } = await axios.get(url);
-    setInfo(data.results[0]);
-  };
-  console.log(info);
+  const url = "https://randomuser.me/api/";
 
-  if (!info) {
-    return <div>LOADING</div>;
+  function getUserInfo() {
+    axios
+      .get(url)
+      .then((res) => {
+        setInfo(res.data.results[0]);
+      })
+      .then(() => {
+        console.log(info);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleClick() {
+    getUserInfo();
+  }
+
+  console.log(info);
+  if (info === null || info === undefined) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -34,7 +47,7 @@ const App = () => {
         age={info.dob.age}
         rd={info.registered.date}
       />
-      <Button />
+      <Button onClick={handleClick} />
     </div>
   );
 };

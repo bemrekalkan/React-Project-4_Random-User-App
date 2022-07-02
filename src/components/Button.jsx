@@ -1,6 +1,6 @@
 const Button = (props) => {
   return (
-    <button onClick={props.handleClick} className="btn btn-danger">
+    <button onClick={props.onClick} className="btn btn-danger">
       Random User
     </button>
   );
